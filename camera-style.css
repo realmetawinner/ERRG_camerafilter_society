@@ -10,6 +10,7 @@ body, html {
 
 /* ===== 앱 전체 컨테이너 (버튼의 기준점) ===== */
 .app-container {
+    /* ★★★ 하단 버튼의 위치 기준점 ★★★ */
     position: relative; 
     width: 100%;
     height: 100%;
@@ -21,13 +22,14 @@ body, html {
     box-sizing: border-box;
 }
 
-/* ===== 카메라와 프레임을 묶는 컨테이너 (이미지 비율) ===== */
+/* ===== 카메라와 프레임을 묶는 컨테이너 (겹치기의 기준점) ===== */
 .camera-container {
-    position: relative; 
+    /* ★★★ 카메라/필터 겹치기의 '기준점' ★★★ */
+    position: relative; 
     width: 95vw; 
     max-width: 500px;
     
-    /* ★★★ (필수) 'filter-society.png'의 실제 너비/높이로 수정하세요 ★★★ */
+    /* 'filter-society.png'의 실제 너비/높이로 수정하세요 */
     aspect-ratio: 1080 / 1920; /* 예시: 세로가 긴 직사각형 비율 */
 
     max-height: 100%;
@@ -38,30 +40,33 @@ body, html {
 
 /* ===== 카메라 영상 (아래쪽 레이어) ===== */
 #camera-view {
-    position: absolute;
+    /* ★★★ '기준점'(.camera-container) 기준으로 겹치기 (1번) ★★★ */
+    position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    z-index: 1; 
+    z-index: 1; /* 1번 레이어 (아래) */
     object-fit: cover; 
     transform: scaleX(-1); 
 }
 
 /* ===== 필터 이미지 (PNG) (위쪽 레이어) ===== */
 .overlay-image {
-    position: absolute;
+    /* ★★★ '기준점'(.camera-container) 기준으로 겹치기 (2번) ★★★ */
+    position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    z-index: 5; 
+    z-index: 5; /* 5번 레이어 (위) */
     pointer-events: none; 
 }
 
 /* ===== 화면전환 버튼 (오른쪽 상단) ===== */
 #switch-camera-button {
-    position: absolute; 
+    /* ★★★ '기준점'(.camera-container) 기준으로 위치 잡기 ★★★ */
+    position: absolute; 
     top: 15px;
     right: 15px;
     z-index: 10; 
@@ -77,6 +82,7 @@ body, html {
 
 /* ===== 하단 버튼 영역 (화면 하단에 고정) ===== */
 .controls {
+    /* ★★★ '기준점'(.app-container) 기준으로 위치 잡기 ★★★ */
     position: absolute; 
     bottom: 30px;     
     left: 0;          
