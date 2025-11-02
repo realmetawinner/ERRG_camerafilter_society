@@ -1,111 +1,119 @@
-/* ===== 기본 설정 ===== */
+/* ===== 기본 설정 (스크롤 없음) ===== */
 body, html {
-    margin: 0;
-    padding: 0;
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-    background-color: #000;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden; /* 스크롤바가 절대로 생기지 않도록 고정 */
+    background-color: #000;
 }
 
-/* ===== 앱 전체 컨테이너 ===== */
+/* ===== 앱 전체 컨테이너 (버튼의 기준점) ===== */
 .app-container {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center; /* 수직 중앙 정렬 */
-    align-items: center;     /* 수평 중앙 정렬 */
-    padding: 15px 0; /* 화면 상하에 약간의 여백 추가 */
-    box-sizing: border-box;
+    position: relative; /* 하단 버튼(.controls)의 위치 기준점이 됨 */
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* 수직 중앙 정렬 */
+    align-items: center;     /* 수평 중앙 정렬 */
+    padding: 0; /* 불필요한 여백 제거 */
+    box-sizing: border-box;
 }
 
-/* ===== 카메라와 프레임을 묶는 컨테이너 (1:1 비율) ===== */
+/* ===== 카메라와 프레임을 묶는 컨테이너 (이미지 비율) ===== */
 .camera-container {
-    position: relative; /* 자식 요소(버튼, 비디오)의 기준점 */
-    width: 95vw; /* 화면 너비의 95%를 사용 */
-    max-width: 500px; /* PC 등 큰 화면에서 너무 커지지 않도록 제한 */
-    
-    /* ★★★ 핵심 수정 사항: 1:1 정사각형 비율 유지 ★★★ */
-    aspect-ratio: 1 / 1; 
+    position: relative; /* 자식 요소(버튼, 비디오)의 기준점 */
+    width: 95vw; /* 화면 너비의 95%를 사용 */
+    max-width: 500px; /* PC 등 큰 화면에서 너무 커지지 않도록 제한 */
+    
+    /* ★★★ 핵심 수정 사항: 'filter-society.png' 이미지의 실제 비율로 변경 ★★★ */
+    /* 예: 이미지 크기가 1080px * 1920px 라면 -> 1080 / 1920 */
+    aspect-ratio: 1080 / 1920; 
 
-    overflow: hidden;
-    border-radius: 20px; /* 모서리를 부드럽게 */
-    box-shadow: 0 0 20px rgba(0,0,0,0.5); /* 입체감 효과 */
+    /* 화면 세로 크기보다 커지지 않도록 제한 (가로로 넓은 기기 대응) */
+    max-height: 100%;
+
+    overflow: hidden;
+    border-radius: 20px; /* 모서리를 부드럽게 */
+    box-shadow: 0 0 20px rgba(0,0,0,0.5); /* 입체감 효과 */
 }
 
 /* ===== 카메라 영상 ===== */
 #camera-view {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 1; 
-    object-fit: cover; /* 컨테이너를 가득 채우도록 설정 (중요!) */
-    transform: scaleX(-1); /* 전면 카메라 좌우 반전 */
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1; 
+    object-fit: cover; /* 컨테이너를 가득 채우도록 설정 (중요!) */
+    transform: scaleX(-1); /* 전면 카메라 좌우 반전 */
 }
 
 /* ===== 필터 이미지 (PNG) ===== */
 .overlay-image {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 5;
-    pointer-events: none; /* 프레임 뒤의 요소가 터치되도록 설정 */
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 5;
+    pointer-events: none; /* 프레임 뒤의 요소가 터치되도록 설정 */
 }
 
 /* ===== 화면전환 버튼 (오른쪽 상단) ===== */
 #switch-camera-button {
-    position: absolute;
-    top: 15px;
-    right: 15px;
-    z-index: 10;
-    padding: 8px 12px;
-    background-color: rgba(0, 0, 0, 0.5);
-    border: 1px solid rgba(255, 255, 255, 0.7);
-    border-radius: 20px;
-    color: white;
-    font-size: 14px;
-    font-weight: bold;
-    cursor: pointer;
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    z-index: 10;
+    padding: 8px 12px;
+    background-color: rgba(0, 0, 0, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.7);
+    border-radius: 20px;
+    color: white;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
 }
 
-/* ===== 하단 버튼 영역 ===== */
+/* ===== 하단 버튼 영역 (화면 하단에 고정) ===== */
 .controls {
-    margin-top: 25px; /* 카메라와의 간격 */
-    display: flex;
-    justify-content: center;
-    gap: 15px;
-    width: 100%;
-    flex-shrink: 0;
-    z-index: 10;
+    /* ★★★ 핵심 수정: position: absolute; 로 변경 ★★★ */
+    position: absolute;
+    bottom: 30px;     /* 화면 하단에서 30px 띄움 (값 조절 가능) */
+    left: 0;          /* 수평 정렬을 위해 0으로 설정 */
+    right: 0;         /* 수평 정렬을 위해 0으로 설정 */
+    z-index: 10;      /* 카메라 위에 표시되도록 */
+
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    width: 100%;
+    flex-shrink: 0;
 }
 
 /* 하단 버튼들의 공통 스타일 */
 .controls button {
-    padding: 12px 0;
-    width: 130px;
-    border: none;
-    border-radius: 10px;
-    color: white;
-    font-weight: bold;
-    font-size: 16px;
-    cursor: pointer;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+    padding: 12px 0;
+    width: 130px;
+    border: none;
+    border-radius: 10px;
+    color: white;
+    font-weight: bold;
+    font-size: 16px;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.2);
 }
 
 #capture-button {
-    background-color: #2E8B57; /* 녹색 계열 */
+    background-color: #2E8B57; /* 녹색 계열 */
 }
 
-#next-mission-button {
-    background-color: #4682B4; /* 파란색 계열 */
-}
+/* (HTML에 #next-mission-button이 없으므로 해당 스타일은 제거함) */
 
 /* ===== 캡처용 숨겨진 캔버스 ===== */
 #hidden-canvas {
-    display: none;
+    display: none;
 }
