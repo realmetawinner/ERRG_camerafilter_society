@@ -73,7 +73,7 @@ captureButton.addEventListener('click', () => {
     const dataURL = hiddenCanvas.toDataURL('image/png');
     const a = document.createElement('a');
     a.href = dataURL;
-    a.download = '사회팀미션성공_인증샷.png';
+    a.download = '사회_복원_미션_인증샷.png';
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
